@@ -1,69 +1,55 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import styles from "./page.module.css";
+
+function Icon({ name }: { name: "sun" | "telegram" | "linkedin" | "email" }) {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    {name === "sun" && <g stroke="currentColor" strokeWidth="1.2"><circle cx="12" cy="12" r="3.5" /><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2" /></g>}
+    {name === "telegram" && <path fill="currentColor" d="m21 3-4 18-6-5-3 3 1-6 9-7-11 6-5-2L21 3Z" />}
+    {name === "linkedin" && <><path fill="currentColor" d="M3 3h18v18H3z" /><path stroke="var(--background)" strokeWidth="1.5" d="M7 10v7m0-10v1m4 9v-7m0 3c0-4 6-4 6 0v4" /></>}
+    {name === "email" && <g stroke="currentColor" strokeWidth="1.5"><rect x="2.5" y="5" width="19" height="14" rx="2" /><path d="m3 6 9 7 9-7" /></g>}
+  </svg>;
+}
 
 export default function Home() {
+  const [theme, setTheme] = useState<"light" | "dark">();
+  function toggleTheme() {
+    const dark = theme ? theme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setTheme(dark ? "light" : "dark");
+  }
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className={styles.page} data-theme={theme}>
+      <header className={styles.toolbar}>
+        <div className={styles.pill}>
+          <button className={styles.themeButton} onClick={toggleTheme} aria-label="Toggle light and dark theme"><Icon name="sun" /></button>
+          <span className={styles.divider} />
+          {/* Enable when the real CV is supplied. */}
+          <button className={styles.cv} disabled title="CV coming soon">download cv</button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </header>
+      <section className={styles.hero} aria-labelledby="headline">
+        <p className={styles.name}>Klaudjo Shkurta</p>
+        <h1 id="headline">Full-stack web &amp; mobile developer</h1>
+      </section>
+      <section className={styles.biography} aria-label="About me">
+        <p className={styles.greeting}>Hi there 👋ʕ•ᴥ•ʔ</p>
+        <p>I’m an award-winning marketing and creative director with 10+ years of leadership experience across agencies (ex <a href="https://www.bbdo.com/">BBDO</a> / <a href="https://www.ddb.com/">DDB</a>), startups &amp; corporations (ex <a href="https://yandex.com/">Yandex</a> / <a href="https://www.alrosa.ru/">Alrosa</a>).</p>
+        <p>Over the past years, I’ve worked in marketing and advertising, handling projects for 50+ brands, including IKEA, Nike, Adidas, Audi, Uniqlo, McD, Nestlé, Uber and others.</p>
+        <p>My contributions and projects have 100+ global awards including Cannes Lions, Webby, Effie, Clio, Red Dot and others.</p>
+        <p>Now I’m cmo @ <a href="https://staya.dog/">staya</a> and continue advise startups on marketing, work as a creative director on-demand for brands and ad agencies.</p>
+        <p>I craft marketing &amp; business models, product strategies, help launch new stuff, manage fundraising and produce various types of content.</p>
+        <p className={styles.membership}>Member of <a href="https://www.iadas.net/">IADAS</a>, as well as a judge for The Webby Awards.</p>
+        <footer className={styles.contact}>
+          <h2>Let’s connect</h2>
+          {/* Personal contact URLs have not been supplied. */}
+          <nav aria-label="Contact">
+            <span><Icon name="telegram" />Telegram</span>
+            <span><Icon name="linkedin" />LinkedIn</span>
+            <span><Icon name="email" />Email</span>
+          </nav>
+        </footer>
+      </section>
+    </main>
   );
 }

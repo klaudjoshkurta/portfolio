@@ -1,0 +1,58 @@
+.page {
+  --background: #ededed;
+  --top: #f8f8f8;
+  --heading: #1b1b1b;
+  --copy: #303030;
+  --muted: #898989;
+  --border: #d3d3d3;
+  min-height: 100vh;
+  padding: 39px 24px 66px;
+  background: linear-gradient(var(--top), var(--background) 65%);
+  color: var(--copy);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.page[data-theme="dark"] {
+  --background: #101010; --top: #191919; --heading: #e4e4e4;
+  --copy: #cecece; --muted: #808080; --border: #2c2c2c;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  .page:not([data-theme="light"]) {
+    --background: #101010; --top: #191919; --heading: #e4e4e4;
+    --copy: #cecece; --muted: #808080; --border: #2c2c2c;
+    color-scheme: dark;
+  }
+}
+.toolbar { display: flex; justify-content: center; }
+.pill { display: flex; align-items: center; height: 37px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+.themeButton { display: grid; place-items: center; width: 37px; height: 35px; border-radius: 50%; cursor: pointer; }
+.divider { width: 1px; height: 14px; background: var(--border); }
+.cv { padding: 0 15px 0 11px; font-size: 13px; line-height: 35px; }
+.themeButton:hover { color: var(--heading); }
+.page button { background: none; border: 0; font-family: inherit; color: inherit; }
+.page :focus-visible { outline: 2px solid var(--muted); outline-offset: 5px; }
+.hero { margin: 225px auto 0; text-align: center; color: var(--heading); }
+.name { font-size: 18px; line-height: 24px; margin: 0 0 31px; }
+.hero h1 { max-width: 700px; margin: 0 auto; font-size: 60px; line-height: 64px; font-weight: 400; letter-spacing: -1.2px; }
+.biography { max-width: 516px; margin: 272px auto 0; font-size: 18px; line-height: 27px; }
+.biography p { margin: 0 0 27px; }
+.biography .greeting { margin-bottom: 23px; }
+.biography a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.biography a:hover { color: var(--heading); }
+.biography .membership { margin-bottom: 10px; }
+.contact h2 { font-size: 18px; line-height: 27px; font-weight: 400; margin: 0 0 18px; }
+.contact nav { display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: 14px; line-height: 20px; }
+.contact nav span { display: inline-flex; gap: 8px; align-items: center; }
+@media (max-width: 600px) {
+  .page { padding: 24px 24px 66px; }
+  .pill { height: 44px; }
+  .themeButton { height: 42px; }
+  .hero { margin-top: 115px; }
+  .name { margin-bottom: 31px; }
+  .hero h1 { max-width: 360px; font-size: 40px; line-height: 44px; letter-spacing: -0.8px; }
+  .biography { margin-top: 177px; font-size: 16px; line-height: 26px; }
+  .biography p { margin-bottom: 26px; }
+  .biography .greeting { font-size: 18px; margin-bottom: 25px; }
+  .biography .membership { margin-bottom: 32px; }
+  .contact h2 { margin-bottom: 18px; }
+}
