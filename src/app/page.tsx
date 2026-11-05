@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import Markdoc from "@markdoc/markdoc";
 import { createReader } from "@keystatic/core/reader";
 import config from "../../keystatic.config";
@@ -11,6 +12,27 @@ import {
 } from "@remixicon/react";
 
 const reader = createReader(process.cwd(), config);
+
+const title = "Klaudjo Shkurta | Full-stack Web & Mobile Developer";
+const description = "Klaudjo Shkurta is a software engineer in Athens building web and mobile apps with TypeScript, React, React Native, Vue, and Next.js.";
+
+export const metadata: Metadata = {
+    title,
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+        type: "website",
+        url: "/",
+        siteName: "Klaudjo Shkurta",
+        title,
+        description,
+    },
+    twitter: {
+        card: "summary",
+        title,
+        description,
+    },
+};
 
 export default async function Home() {
     const [home, experience, projectEntries] = await Promise.all([

@@ -13,11 +13,22 @@ Use the **Experience** collection to edit each company's name, role, dates,
 and rich-text summary. Entries live in `src/content/experience/` and appear
 in the homepage Experience section.
 
-Content is saved to `src/content/home.mdoc` using local storage, configured in
-`keystatic.config.ts`. Save in the editor, then refresh the homepage to see changes.
-Commit the content file alongside code changes. Production sites need a rebuild
-to publish content updates. Editing a deployed site requires configuring
-[GitHub storage](https://keystatic.com/docs/github-mode); the current setup is for local editing.
+Keystatic edits content in the `klaudjoshkurta/portfolio` GitHub repository.
+Open the local editor and follow the [GitHub App setup](https://keystatic.com/docs/github-mode).
+Install the app only on the portfolio repository and add
+`https://klaudjoshkurta.com/api/keystatic/github/oauth/callback` as a callback URL.
+
+Copy the generated settings to your hosting provider's environment variables:
+
+- `KEYSTATIC_GITHUB_CLIENT_ID`
+- `KEYSTATIC_GITHUB_CLIENT_SECRET`
+- `KEYSTATIC_SECRET`
+- `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`
+
+Keep secrets out of Git. Deploy on a host with a Node.js runtime and rebuild
+from the publishing branch when content changes. The public site reads content
+from the deployed checkout. The production editor API returns 503 until its
+GitHub App settings are present.
 
 ## Getting Started
 

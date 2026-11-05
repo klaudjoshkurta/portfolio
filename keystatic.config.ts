@@ -1,7 +1,7 @@
 import { collection, config, fields, singleton } from "@keystatic/core";
 
 export default config({
-    storage: { kind: "local" },
+    storage: { kind: "github", repo: "klaudjoshkurta/portfolio" },
     singletons: {
         home: singleton({
             label: "Home",
