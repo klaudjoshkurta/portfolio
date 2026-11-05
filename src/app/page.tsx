@@ -3,19 +3,28 @@ import Markdoc from "@markdoc/markdoc";
 import { createReader } from "@keystatic/core/reader";
 import config from "../../keystatic.config";
 import Header from "@/components/header";
-import { RiGithubFill, RiLinkedinBoxFill, RiMailLine } from "@remixicon/react";
+import { RiArrowRightUpLine, RiGithubFill, RiLinkedinBoxFill, RiMailLine } from "@remixicon/react";
 
 const reader = createReader(process.cwd(), config);
 
 export default async function Home() {
-    const [home, experience] = await Promise.all([
+    const [home, experience, projectEntries] = await Promise.all([
         reader.singletons.home.readOrThrow(),
         reader.collections.experience.all(),
+        reader.collections.projects.all(),
     ]);
     const { biography, ...content } = home;
     const { node } = await biography();
     const experiences = await Promise.all(
         experience.map(async ({ slug, entry }) => ({
+            slug,
+            ...entry,
+            summary: (await entry.summary()).node,
+        })),
+    );
+
+    const projects = await Promise.all(
+        projectEntries.map(async ({ slug, entry }) => ({
             slug,
             ...entry,
             summary: (await entry.summary()).node,
@@ -48,13 +57,13 @@ export default async function Home() {
                     {content.greeting}
                 </p>
                 <div className="[&_p]:mb-6.75 max-[600px]:[&_p]:mb-6.5 [&_p:last-child]:mb-2.5 max-[600px]:[&_p:last-child]:mb-8">{Markdoc.renderers.react(Markdoc.transform(node.children), React)}</div>
-                <section aria-labelledby="experience-heading" className="my-12">
+                <section aria-labelledby="experience-heading" className="mt-12">
                     <h2 id="experience-heading" className="mb-6 text-lg leading-6.75 font-normal">
                         Experience
                     </h2>
-                    <div className="divide-y divide-[#d3d3d3] group-data-[theme=dark]:divide-[#2c2c2c] group-data-[theme=system]:dark:divide-[#2c2c2c]">
+                    <div>
                         {experiences.map((entry) => (
-                            <article key={entry.slug} className="py-8 first:pt-0 last:pb-0">
+                            <article key={entry.slug} className="py-4 first:pt-0 last:pb-0">
                                 <h3 className="font-normal">{entry.company}</h3>
                                 <p className="mt-1 text-sm opacity-65">{entry.role} · {entry.dates}</p>
                                 <div className="mt-3 [&_p+p]:mt-3">
@@ -64,7 +73,36 @@ export default async function Home() {
                         ))}
                     </div>
                 </section>
-                <footer>
+                {projects.length > 0 && (
+                    <section aria-labelledby="projects-heading" className="mt-12">
+                        <h2 id="projects-heading" className="mb-6 text-lg leading-6.75 font-normal">
+                            Projects
+                        </h2>
+                        <div className="space-y-8">
+                            {projects.map(({ slug, title, url, summary }, index) => (
+                                <article key={slug} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-2 sm:gap-6">
+                                    <span aria-hidden="true" className="pt-1 font-mono text-2xl leading-none tabular-nums opacity-45 sm:text-3xl">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <div className="border-l border-current/15 pl-4 sm:pl-6">
+                                        <h3 className="text-xl font-medium">
+                                            {url ? (
+                                                <a href={url} className="inline-flex items-center gap-2">
+                                                    {title}
+                                                    <RiArrowRightUpLine size={16} aria-hidden="true" />
+                                                </a>
+                                            ) : title}
+                                        </h3>
+                                        <div className="mt-2 text-base leading-relaxed [&_p+p]:mt-3">
+                                            {Markdoc.renderers.react(Markdoc.transform(summary.children), React)}
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+                )}
+                <footer className="mt-12">
                     <h2 className="mb-4.5 text-lg leading-6.75 font-normal">
                         {content.contactHeading}
                     </h2>
@@ -87,3 +125,4 @@ export default async function Home() {
         </main>
     );
 }
+

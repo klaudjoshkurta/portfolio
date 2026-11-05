@@ -20,6 +20,17 @@ export default config({
         }),
     },
     collections: {
+        projects: collection({
+            label: "Projects",
+            slugField: "title",
+            path: "src/content/projects/*",
+            format: { contentField: "summary" },
+            schema: {
+                title: fields.slug({ name: { label: "Title", validation: { isRequired: true } } }),
+                url: fields.url({ label: "Project URL" }),
+                summary: fields.markdoc({ label: "Summary" }),
+            },
+        }),
         experience: collection({
             label: "Experience",
             slugField: "company",
