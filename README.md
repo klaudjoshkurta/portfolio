@@ -5,7 +5,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 Run `npm install` and `npm run dev`, then open
 [Keystatic](http://127.0.0.1:3000/keystatic) and select **Home**.
 The singleton controls the name, headline, greeting, rich-text biography,
-contact heading, CV label and URL, and personal contact URLs.
+contact heading, and personal contact URLs. The header label and CV link are
+hardcoded in `src/app/header.tsx`.
 Empty URLs keep the corresponding controls inactive.
 
 Content is saved to `src/content/home.mdoc` using local storage, configured in
