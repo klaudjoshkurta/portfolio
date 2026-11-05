@@ -9,6 +9,10 @@ contact heading, and personal contact URLs. The header label and CV link are
 hardcoded in `src/app/header.tsx`.
 Empty URLs keep the corresponding controls inactive.
 
+Use the **Experience** collection to edit each company's name, role, dates,
+and rich-text summary. Entries live in `src/content/experience/` and appear
+in the homepage Experience section.
+
 Content is saved to `src/content/home.mdoc` using local storage, configured in
 `keystatic.config.ts`. Save in the editor, then refresh the homepage to see changes.
 Commit the content file alongside code changes. Production sites need a rebuild

@@ -8,8 +8,19 @@ import { RiGithubFill, RiLinkedinBoxFill, RiMailLine } from "@remixicon/react";
 const reader = createReader(process.cwd(), config);
 
 export default async function Home() {
-    const { biography, ...content } = await reader.singletons.home.readOrThrow();
+    const [home, experience] = await Promise.all([
+        reader.singletons.home.readOrThrow(),
+        reader.collections.experience.all(),
+    ]);
+    const { biography, ...content } = home;
     const { node } = await biography();
+    const experiences = await Promise.all(
+        experience.map(async ({ slug, entry }) => ({
+            slug,
+            ...entry,
+            summary: (await entry.summary()).node,
+        })),
+    );
 
     return (
         <main
@@ -24,7 +35,7 @@ export default async function Home() {
                 <p className="mb-7.75 text-lg leading-6">{content.name}</p>
                 <h1
                     id="headline"
-                    className="mx-auto max-w-175 text-[60px] leading-16 font-normal tracking-[-1.2px] max-[600px]:max-w-90 max-[600px]:text-[40px] max-[600px]:leading-11 max-[600px]:tracking-[-0.8px]"
+                    className="mx-auto max-w-175 bg-linear-to-b from-[oklch(21.3%_0_0)] to-[oklch(21.3%_0_0)]/35 group-data-[theme=dark]:from-[oklch(89.7%_0_0)] group-data-[theme=dark]:to-[oklch(89.7%_0_0)]/35 group-data-[theme=system]:dark:from-[oklch(89.7%_0_0)] group-data-[theme=system]:dark:to-[oklch(89.7%_0_0)]/35 bg-clip-text text-[60px] leading-16 font-normal tracking-[-1.2px] text-transparent max-[600px]:max-w-90 max-[600px]:text-[40px] max-[600px]:leading-11 max-[600px]:tracking-[-0.8px]"
                 >
                     {content.headline}
                 </h1>
@@ -37,6 +48,22 @@ export default async function Home() {
                     {content.greeting}
                 </p>
                 <div className="[&_p]:mb-6.75 max-[600px]:[&_p]:mb-6.5 [&_p:last-child]:mb-2.5 max-[600px]:[&_p:last-child]:mb-8">{Markdoc.renderers.react(Markdoc.transform(node.children), React)}</div>
+                <section aria-labelledby="experience-heading" className="my-12">
+                    <h2 id="experience-heading" className="mb-6 text-lg leading-6.75 font-normal">
+                        Experience
+                    </h2>
+                    <div className="divide-y divide-[#d3d3d3] group-data-[theme=dark]:divide-[#2c2c2c] group-data-[theme=system]:dark:divide-[#2c2c2c]">
+                        {experiences.map((entry) => (
+                            <article key={entry.slug} className="py-8 first:pt-0 last:pb-0">
+                                <h3 className="font-normal">{entry.company}</h3>
+                                <p className="mt-1 text-sm opacity-65">{entry.role} · {entry.dates}</p>
+                                <div className="mt-3 [&_p+p]:mt-3">
+                                    {Markdoc.renderers.react(Markdoc.transform(entry.summary.children), React)}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
                 <footer>
                     <h2 className="mb-4.5 text-lg leading-6.75 font-normal">
                         {content.contactHeading}

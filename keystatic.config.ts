@@ -1,4 +1,4 @@
-import { config, fields, singleton } from "@keystatic/core";
+import { collection, config, fields, singleton } from "@keystatic/core";
 
 export default config({
     storage: { kind: "local" },
@@ -16,6 +16,21 @@ export default config({
                 githubUrl: fields.url({ label: "GitHub URL" }),
                 linkedinUrl: fields.url({ label: "LinkedIn URL" }),
                 emailUrl: fields.url({ label: "Email URL", description: "Use mailto:you@example.com." }),
+            },
+        }),
+    },
+    collections: {
+        experience: collection({
+            label: "Experience",
+            slugField: "company",
+            path: "src/content/experience/*",
+            format: { contentField: "summary" },
+            columns: ["company", "role", "dates"],
+            schema: {
+                company: fields.slug({ name: { label: "Company", validation: { isRequired: true } } }),
+                role: fields.text({ label: "Role", validation: { isRequired: true } }),
+                dates: fields.text({ label: "Dates", description: "For example: Jun 2019 - Oct 2026, or Apr 2025 - Present.", validation: { isRequired: true } }),
+                summary: fields.markdoc({ label: "Summary" }),
             },
         }),
     },
