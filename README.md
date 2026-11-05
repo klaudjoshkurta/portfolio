@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Editing Home with Keystatic
+
+Run `npm install` and `npm run dev`, then open
+[Keystatic](http://127.0.0.1:3000/keystatic) and select **Home**.
+The singleton controls the name, headline, greeting, rich-text biography,
+contact heading, CV label and URL, and personal contact URLs.
+Empty URLs keep the corresponding controls inactive.
+
+Content is saved to `src/content/home.mdoc` using local storage, configured in
+`keystatic.config.ts`. Save in the editor, then refresh the homepage to see changes.
+Commit the content file alongside code changes. Production sites need a rebuild
+to publish content updates. Editing a deployed site requires configuring
+[GitHub storage](https://keystatic.com/docs/github-mode); the current setup is for local editing.
+
 ## Getting Started
 
 First, run the development server:
