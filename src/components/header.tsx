@@ -11,7 +11,7 @@ export default function Header() {
                 <span className="h-3.5 w-px bg-[#d3d3d3] group-data-[theme=dark]:bg-[#2c2c2c] group-data-[theme=system]:dark:bg-[#2c2c2c]" />
                 <a
                     className="pr-3.75 pl-2.75 text-[13px] leading-8.75"
-                    href="https://klaudjoshkurta.com/__l5e/assets-v1/527e7865-8b85-4883-96bd-9d624817940f/klaudjo-shkurta-resume.pdf"
+                    href="/Klaudjo_Shkurta_Resume.pdf"
                     download
                 >
                     download cv
